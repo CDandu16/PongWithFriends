@@ -1,0 +1,29 @@
+<html>
+<head>
+  <title>Controller</title>
+</head>
+<body>
+  <ul>
+    <li>acceleration x: <span id="accelerationX"></span>g</li>
+  </ul>
+
+  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+  <script>
+  var ax=ay=0;
+
+  var socket = io();
+
+  //function for checking for accleleromter data
+  window.addEventListener('devicemotion', function (e) {
+  //ax = -e.accelerationIncludingGravity.x * 7;
+    ay = -e.accelerationIncludingGravity.y * 5;
+    socket.emit('acceleration', ay);
+  }, false);
+
+  //establishes socket data to send over server
+    socket.on('acceleration', function(data){
+    document.getElementById("accelerationX").innerHTML = data;
+  });
+  </script>
+</body>
+</html>
